@@ -1,1 +1,45 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="box">
+    <h3 id="email"></h3>
+    <h2 id="balance">Balance: --</h2>
+  </div>
+
+  <div class="box">
+    <h3>Contact Details</h3>
+    <p>WhatsApp: +94 0766536681</p>
+    <p>Telegram: @Sasindumadumal</p>
+  </div>
+</div>
+
+<nav>
+  <a href="home.html">Home</a>
+  <a href="deposit.html">Deposit</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="investment.html">Plans</a>
+  <a href="profile.html">Profile</a>
+</nav>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { doc, getDoc } from
+"https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+auth.onAuthStateChanged(async user => {
+  if (!user) return location.href = "index.html";
+  document.getElementById("email").innerText = user.email;
+  const snap = await getDoc(doc(db,"users",user.uid));
+  document.getElementById("balance").innerText =
+    "Balance: LKR " + snap.data().balance;
+});
+</script>
+</body>
+</html>
